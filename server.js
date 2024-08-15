@@ -5,6 +5,7 @@ const pool = require("./db");
 const port = process.env.LOCALHOST_PORT || 3000;
 
 const app = express();
+app.use(logger);
 
 app.get("/", (req, res) => {
   console.log("here");
@@ -24,6 +25,10 @@ const routes = [
 ];
 // loops through each router and run the app.use() call so that the routes are utilized
 routes.forEach((route) => app.use(route.path, route.router));
+
+function logger(req, res, next) {
+  console.log(req.originalUrl);
+}
 
 // Start the server with error handling
 app.listen(port, (err) => {
