@@ -11,6 +11,7 @@ app.get("/", (req, res) => {
   res.status(200).send("hi");
 });
 
+/* ROUTERS */
 const routes = [
   { path: "/clients", router: require("./routes/clients") },
   { path: "/agents", router: require("./routes/agents") },
