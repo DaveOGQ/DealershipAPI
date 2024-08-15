@@ -14,6 +14,12 @@ app.get("/", (req, res) => {
 const routes = [
   { path: "/clients", router: require("./routes/clients") },
   { path: "/agents", router: require("./routes/agents") },
+  { path: "/vehicles", router: require("./routes/vehicles") },
+  { path: "/sold_vehicles", router: require("./routes/sold_vehicles") },
+  {
+    path: "/prospective_vehicles",
+    router: require("./routes/prospective_vehicles"),
+  },
 ];
 // loops through each router and run the app.use() call so that the routes are utilized
 routes.forEach((route) => app.use(route.path, route.router));
