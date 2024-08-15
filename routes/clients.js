@@ -1,43 +1,13 @@
-const fs = require("fs");
-const path = "unique_ids.json";
+const express = require("express");
+const router = express.Router();
+const generateUniqueRandomId = require("./generateID.js"); // Importing the function
 
-let generatedIds = new Set();
+//all routes from this file will be prefixed with the path "/clients" in server js thus "/" here is actually "/clients"
 
-// Load generated IDs from file on startup
-function loadIds() {
-  if (fs.existsSync(path)) {
-    const data = fs.readFileSync(path, "utf8");
-    const idsArray = JSON.parse(data);
-    generatedIds = new Set(idsArray);
-  }
-}
+router.get("/", (req, res) => {
+  const id = generateUniqueRandomId();
+  console.log("Generated ID:", id);
+  res.send(`Client list and generated id ${id}`);
+});
 
-// Save generated IDs to file
-function saveIds() {
-  fs.writeFileSync(path, JSON.stringify([...generatedIds]));
-}
-
-function generateUniqueRandomId() {
-  let randomId;
-
-  do {
-    // Generate a random 8-character long number ID
-    const randomNumber = Math.floor(Math.random() * 100000000);
-    randomId = String(randomNumber).padStart(8, "0");
-  } while (generatedIds.has(randomId));
-
-  // Add the new ID to the set
-  generatedIds.add(randomId);
-
-  // Save the updated set to the file
-  saveIds();
-
-  return randomId;
-}
-
-// Load IDs when starting the program
-loadIds();
-
-// Example usage
-const id = generateUniqueRandomId();
-console.log("Generated ID:", id);
+module.exports = router;
