@@ -11,11 +11,12 @@ app.get("/", (req, res) => {
   res.status(200).send("hi");
 });
 
-const clientRouter = require("./routes/clients");
-
-const agentRouter = require("./routes/agents");
-app.use("/clients", clientRouter);
-app.use("/agents", agentRouter);
+const routes = [
+  { path: "/clients", router: require("./routes/clients") },
+  { path: "/agents", router: require("./routes/agents") },
+];
+// loops through each router and run the app.use() call so that the routes are utilized
+routes.forEach((route) => app.use(route.path, route.router));
 
 // Start the server with error handling
 app.listen(port, (err) => {
