@@ -1,5 +1,5 @@
-import "dotenv/config";
-import { Pool } from "pg";
+require("dotenv").config();
+const { Pool } = require("pg");
 const pool = new Pool({
   host: process.env.HOST,
   port: process.env.PORT || 5432, // Default port is 5432 if not specified
