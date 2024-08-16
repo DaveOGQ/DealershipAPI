@@ -13,7 +13,9 @@ router
     res.send(`Agent list and generated id ${id}`);
   })
   .post(async (req, res) => {
-    req.body;
+    const { fname, lname, address, city, province_state, vehicles_sold } =
+      req.body;
+
     //run sql query for insertion into the agents
   });
 
