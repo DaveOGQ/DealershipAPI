@@ -28,6 +28,7 @@ routes.forEach((route) => app.use(route.path, route.router));
 
 function logger(req, res, next) {
   console.log(req.originalUrl);
+  next();
 }
 
 // Start the server with error handling
