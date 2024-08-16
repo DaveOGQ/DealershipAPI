@@ -15,8 +15,10 @@ router
   .post(async (req, res) => {
     const { fname, lname, address, city, province_state, vehicles_sold } =
       req.body;
+    const id = generateUniqueRandomId();
+    console.log("Generated ID:", id);
 
-    //run sql query for insertion into the agents
+    //run sql query for insertion into the agent, include theis new generated id
   });
 
 // a post to "/" would mena that a new user is being added,
