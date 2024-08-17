@@ -7,16 +7,48 @@ const generateUniqueRandomId = require("./generateID.js"); // Importing the func
 
 router
   .route("/")
-  .get((req, res) => {
-    const id = generateUniqueRandomId();
-    console.log("Generated ID:", id);
-    res.send(`Agent list and generated id ${id}`);
+  .get(async (req, res) => {
+    try {
+      result = await pool.query("SELECT * FROM agent");
+      result.rows.length > 0
+        ? res.status(200).json(result.rows)
+        : res.status(400).send("No agents exist");
+    } catch (err) {
+      console.log(err);
+      res.sendStatus(); //SENDS STATUS TO CONSOLE AND CLIENT
+    }
   })
   .post(async (req, res) => {
-    const { fname, lname, address, city, province_state, vehicles_sold } =
-      req.body;
-    const id = generateUniqueRandomId();
-    console.log("Generated ID:", id);
+    try {
+      // Access the body content directly as an object
+      console.log(req.body); // This will log the request body data
+
+      const { fname, lname, address, city, province_state, vehicles_sold } =
+        req.body;
+
+      console.log(address);
+
+      const id = generateUniqueRandomId();
+      console.log("Generated ID:", id);
+
+      result = await pool.query(
+        "INSERT INTO agent (agent_id, fname, lname, address, city, province_state, vehicles_sold)VALUES ($1, $2, $3, $4, $5, $6, $7);",
+        [id, fname, lname, address, city, province_state, vehicles_sold]
+      );
+
+      // do something to check that the row was addd
+
+      // Respond with a 200 status
+      res.status(200).send("Data received");
+    } catch (err) {
+      console.error(err);
+      res.status(500).send("Error occurred.");
+    }
+    // const { fname, lname, address, city, province_state, vehicles_sold } =
+    //   req.body;
+
+    // const id = generateUniqueRandomId();
+    // console.log("Generated ID:", id);
 
     //run sql query for insertion into the agent, include theis new generated id
   });

@@ -7,6 +7,9 @@ const port = process.env.LOCALHOST_PORT || 3000;
 const app = express();
 app.use(logger);
 
+// Middleware to parse JSON
+app.use(express.json());
+
 app.get("/", (req, res) => {
   console.log("here");
   res.status(200).send("hi");
