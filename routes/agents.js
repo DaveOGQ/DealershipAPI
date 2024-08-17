@@ -36,7 +36,7 @@ router
         [id, fname, lname, address, city, province_state, vehicles_sold]
       );
 
-      // do something to check that the row was addd
+      // do something to check that the row was
 
       // Respond with a 200 status
       res.status(200).send("Data received");
