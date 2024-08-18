@@ -22,7 +22,6 @@ router
     try {
       // Access the body content directly as an object
       console.log(req.body); // This will log the request body data
-      console.log(req.bofy.fname);
       const { fname, lname, address, city, province_state, vehicles_sold } =
         req.body;
 
@@ -40,15 +39,8 @@ router
       res.status(200).json({ agent_id: id });
     } catch (err) {
       console.error(err);
-      res.status(500).send(err.detail);
+      res.status(500).send(`An error occured: ${err.detail}`);
     }
-    // const { fname, lname, address, city, province_state, vehicles_sold } =
-    //   req.body;
-
-    // const id = generateUniqueRandomId();
-    // console.log("Generated ID:", id);
-
-    //run sql query for insertion into the agent, include theis new generated id
   });
 
 // a post to "/" would mena that a new user is being added,
@@ -87,8 +79,14 @@ router
   });
 
 router.put("/address", async (req, res) => {
+  const { id, address } = req.body;
+
+  result = await pool.query("Update agent SET adress=$1 WHERE agent_id=$2 ", [
+    address,
+    id,
+  ]);
+
   //run sql query for update into the agents
-  req;
 });
 
 router.put("/city", async (req, res) => {

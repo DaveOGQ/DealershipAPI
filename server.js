@@ -9,6 +9,8 @@ app.use(logger);
 
 // Middleware to parse JSON
 app.use(express.json());
+//URL-encoded form data,
+app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
   console.log("here");
