@@ -22,7 +22,7 @@ router
     try {
       // Access the body content directly as an object
       console.log(req.body); // This will log the request body data
-
+      console.log(req.bofy.fname);
       const { fname, lname, address, city, province_state, vehicles_sold } =
         req.body;
 
@@ -88,6 +88,7 @@ router
 
 router.put("/address", async (req, res) => {
   //run sql query for update into the agents
+  req;
 });
 
 router.put("/city", async (req, res) => {
