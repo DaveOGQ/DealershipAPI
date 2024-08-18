@@ -82,19 +82,19 @@ router.put("/address", async (req, res) => {
   try {
     const { id, address } = req.body;
 
-    result = await pool.query("Update agent SET adress=$1 WHERE agent_id=$2 ", [
-      address,
-      id,
-    ]);
+    result = await pool.query(
+      "Update agent SET address=$1 WHERE agent_id=$2 ",
+      [address, id]
+    );
 
-    result.rows.length > 0
+    result.rowsCount > 0
       ? res
           .status(200)
           .send(`Address for Agent_id: ${id} was successfully updated!`)
       : res.status(400).send("No agents exist");
   } catch (err) {
     console.log(err);
-    res.sendStatus(`An error occured: ${err.detail}`); //SENDS STATUS TO CONSOLE AND CLIENT
+    res.status(500).send(`An error occured: ${err.detail}`); //SENDS STATUS TO CONSOLE AND CLIENT
   }
 
   //run sql query for update into the agents
