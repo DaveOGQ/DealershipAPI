@@ -1,30 +1,37 @@
 const express = require("express");
 const router = express.Router();
-const pool = require("../db.js");
-const generateUniqueRandomId = require("./generateID.js"); // Importing the function
+const pool = require("../db.js"); // pool for database connection
+const generateUniqueRandomId = require("./generateID.js"); //generate id function
 
 //all routes from this file will be prefixed with the path "/users" in server js thus "/" here is actually "/users"
 
+/* || HOME PATH ROUTE FOR GETTING ALL USERS AND ADDING A NEW USER || */
 router
   .route("/")
   .get(async (req, res) => {
     try {
       result = await pool.query("SELECT * FROM agent");
+
+      //check result of rows selected
       result.rows.length > 0
         ? res.status(200).json(result.rows)
         : res.status(400).send("No agents exist");
     } catch (err) {
       console.log(err);
-      res.sendStatus(); //SENDS STATUS TO CONSOLE AND CLIENT
+      res
+        .status(500)
+        .send("An unexpected error occurred. Please try again later.");
     }
   })
   .post(async (req, res) => {
     try {
-      // Access the body content directly as an object
-      console.log(req.body); // This will log the request body data
+      console.log(req.body);
+
+      //destructure the req.body object
       const { fname, lname, address, city, province_state, vehicles_sold } =
         req.body;
 
+      //create new id for the user being added
       const id = generateUniqueRandomId();
       console.log("Generated ID:", id);
 
@@ -33,19 +40,17 @@ router
         [id, fname, lname, address, city, province_state, vehicles_sold]
       );
 
-      // do something to check that the row was
-
-      // Respond with a 200 status
+      //return the new generated id to the client
       res.status(200).json({ agent_id: id });
     } catch (err) {
       console.error(err);
-      res.status(500).send(`An error occured: ${err.detail}`);
+      res
+        .status(500)
+        .send("An unexpected error occurred. Please try again later.");
     }
   });
 
-// a post to "/" would mena that a new user is being added,
-//meaning the req body will contain all the information we need to create a user, and then id have to generate the id myself and then return that id for them to associate with that user
-
+/* || ID  ROUTES, GETTING A SPECIFIC AGENT AND DELETING ONE BY SPECIFIED ID || */
 router
   .route("/:id")
   .get(async (req, res) => {
@@ -56,10 +61,12 @@ router
       ]);
       result.rows.length > 0
         ? res.status(200).json(result.rows[0])
-        : res.status(400).send("Agent not found");
+        : res.status(400).send("No agents exist with the given ID.");
     } catch (err) {
       console.log(err);
-      res.sendStatus(); //SENDS STATUS TO CONSOLE AND CLIENT
+      res
+        .status(500)
+        .send("An unexpected error occurred. Please try again later.");
     }
   })
   .delete(async (req, res) => {
@@ -67,17 +74,21 @@ router
       result = await pool.query("DELETE FROM agent WHERE agent_id = $1", [
         req.params.id,
       ]);
+      // check that rows are affected to verify succesfully operation
       result.rowCount > 0
         ? res
             .status(200)
             .send(`Agent with ID ${req.params.id} was deleted successfully.`)
-        : res.status(400).send("Agent not found");
+        : res.status(400).send("No agents exist with the given ID.");
     } catch (err) {
       console.log(err);
-      res.sendStatus(); //SENDS STATUS TO CONSOLE AND CLIENT
+      res
+        .status(500)
+        .send("An unexpected error occurred. Please try again later.");
     }
   });
 
+/* || ADDRESS UPDATE  ROUTE || */
 router.put("/address", async (req, res) => {
   try {
     console.log(req.body);
@@ -90,19 +101,25 @@ router.put("/address", async (req, res) => {
 
     console.log(result.rowCount);
 
+    // check that rows are affected to verify succesfully operation
     result.rowCount > 0
       ? res
           .status(200)
           .send(`Address for Agent_id: ${id} was successfully updated!`)
-      : res.status(400).send("Address Update incomplete");
+      : res
+          .status(400)
+          .send(
+            "Bad request: Missing or incorrect data provided for 'id' or 'address'."
+          );
   } catch (err) {
     console.log(err);
-    res.status(500).send(`An error occured: ${err.detail}`); //SENDS STATUS TO CONSOLE AND CLIENT
+    res
+      .status(500)
+      .send("An unexpected error occurred. Please try again later."); //SENDS STATUS TO CONSOLE AND CLIENT
   }
-
-  //run sql query for update into the agents
 });
 
+/* || CITY UPDATE  ROUTE || */
 router.put("/city", async (req, res) => {
   try {
     console.log(req.body);
@@ -115,18 +132,26 @@ router.put("/city", async (req, res) => {
 
     console.log(result.rowCount);
 
+    // check that rows are affected to verify succesfully operation
     result.rowCount > 0
       ? res
           .status(200)
           .send(`City for Agent_id: ${id} was successfully updated!`)
-      : res.status(400).send("City Update incomplete");
+      : res
+          .status(400)
+          .send(
+            "Bad request: Missing or incorrect data provided for 'id' or 'city'."
+          );
   } catch (err) {
     console.log(err);
-    res.status(500).send(`An error occured: ${err.detail}`); //SENDS STATUS TO CONSOLE AND CLIENT
+    res
+      .status(500)
+      .send("An unexpected error occurred. Please try again later."); //SENDS STATUS TO CONSOLE AND CLIENT
   }
   //run sql query for update into the agents
 });
 
+/* || PROVINCE/STATE UPDATE  ROUTE || */
 router.put("/province_state", async (req, res) => {
   try {
     console.log(req.body);
@@ -137,19 +162,25 @@ router.put("/province_state", async (req, res) => {
       [province_state, id]
     );
 
-    console.log(result.rowCount);
-
+    // check that rows are affected to verify succesfully operation
     result.rowCount > 0
       ? res
           .status(200)
           .send(`Province/State for Agent_id: ${id} was successfully updated!`)
-      : res.status(400).send("Province/State Update incomplete");
+      : res
+          .status(400)
+          .send(
+            "Bad request: Missing or incorrect data provided for 'id' or 'province_state'."
+          );
   } catch (err) {
     console.log(err);
-    res.status(500).send(`An error occured: ${err.detail}`); //SENDS STATUS TO CONSOLE AND CLIENT
+    res
+      .status(500)
+      .send("An unexpected error occurred. Please try again later."); //SENDS STATUS TO CONSOLE AND CLIENT
   }
 });
 
+/* || NUMBER OF SOLD VEHICLES UPDATE  ROUTE || */
 router.put("/vehicles_sold", async (req, res) => {
   try {
     console.log(req.body);
@@ -162,16 +193,19 @@ router.put("/vehicles_sold", async (req, res) => {
 
     console.log(result.rowCount);
 
+    // check that rows are affected to verify succesfully operation
     result.rowCount > 0
       ? res
           .status(200)
           .send(
-            `Number of vehicles solde for Agent_id: ${id} was successfully updated!`
+            `Number of vehicles sold for Agent_id: ${id} was successfully updated!`
           )
       : res.status(400).send("Province/State Update incomplete");
   } catch (err) {
     console.log(err);
-    res.status(500).send(`An error occured: ${err.detail}`); //SENDS STATUS TO CONSOLE AND CLIENT
+    res
+      .status(500)
+      .send("An unexpected error occurred. Please try again later."); //SENDS STATUS TO CONSOLE AND CLIENT
   }
 });
 
