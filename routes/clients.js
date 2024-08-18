@@ -180,38 +180,38 @@ router.put("/province_state", async (req, res) => {
   }
 });
 
-/* || NUMBER OF SOLD VEHICLES UPDATE  ROUTE || */
-router.put("/vehicles_sold", async (req, res) => {
-  try {
-    console.log(req.body);
-    const { id, vehicles_sold } = req.body;
+// /* || NUMBER OF SOLD VEHICLES UPDATE  ROUTE || */
+// router.put("/vehicles_sold", async (req, res) => {
+//   try {
+//     console.log(req.body);
+//     const { id, vehicles_sold } = req.body;
 
-    result = await pool.query(
-      "Update agent SET vehicles_sold=$1 WHERE agent_id=$2 ",
-      [vehicles_sold, id]
-    );
+//     result = await pool.query(
+//       "Update agent SET vehicles_sold=$1 WHERE agent_id=$2 ",
+//       [vehicles_sold, id]
+//     );
 
-    console.log(result.rowCount);
+//     console.log(result.rowCount);
 
-    // check that rows are affected to verify succesfully operation
-    result.rowCount > 0
-      ? res
-          .status(200)
-          .send(
-            `Number of vehicles sold for Agent_id: ${id} was successfully updated!`
-          )
-      : res
-          .status(400)
-          .send(
-            "Bad request: Missing or incorrect data provided for 'id' or 'vehicles_sold'."
-          );
-  } catch (err) {
-    console.log(err);
-    res
-      .status(500)
-      .send("An unexpected error occurred. Please try again later.");
-  }
-});
+//     // check that rows are affected to verify succesfully operation
+//     result.rowCount > 0
+//       ? res
+//           .status(200)
+//           .send(
+//             `Number of vehicles sold for Agent_id: ${id} was successfully updated!`
+//           )
+//       : res
+//           .status(400)
+//           .send(
+//             "Bad request: Missing or incorrect data provided for 'id' or 'vehicles_sold'."
+//           );
+//   } catch (err) {
+//     console.log(err);
+//     res
+//       .status(500)
+//       .send("An unexpected error occurred. Please try again later.");
+//   }
+// });
 
 //USE PARAMS TO ALSO MAKE QURIES TO get the users first name and last name then log that? , before doing any consequent operations?
 module.exports = router;
