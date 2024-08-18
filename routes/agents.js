@@ -94,7 +94,7 @@ router.put("/address", async (req, res) => {
       ? res
           .status(200)
           .send(`Address for Agent_id: ${id} was successfully updated!`)
-      : res.status(400).send("Update incomplete");
+      : res.status(400).send("Address Update incomplete");
   } catch (err) {
     console.log(err);
     res.status(500).send(`An error occured: ${err.detail}`); //SENDS STATUS TO CONSOLE AND CLIENT
@@ -119,7 +119,7 @@ router.put("/city", async (req, res) => {
       ? res
           .status(200)
           .send(`City for Agent_id: ${id} was successfully updated!`)
-      : res.status(400).send("Update incomplete");
+      : res.status(400).send("City Update incomplete");
   } catch (err) {
     console.log(err);
     res.status(500).send(`An error occured: ${err.detail}`); //SENDS STATUS TO CONSOLE AND CLIENT
@@ -130,11 +130,11 @@ router.put("/city", async (req, res) => {
 router.put("/province_state", async (req, res) => {
   try {
     console.log(req.body);
-    const { id, address } = req.body;
+    const { id, province_state } = req.body;
 
     result = await pool.query(
-      "Update agent SET address=$1 WHERE agent_id=$2 ",
-      [address, id]
+      "Update agent SET province_state=$1 WHERE agent_id=$2 ",
+      [province_state, id]
     );
 
     console.log(result.rowCount);
@@ -142,17 +142,37 @@ router.put("/province_state", async (req, res) => {
     result.rowCount > 0
       ? res
           .status(200)
-          .send(`Address for Agent_id: ${id} was successfully updated!`)
-      : res.status(400).send("Update incomplete");
+          .send(`Province/State for Agent_id: ${id} was successfully updated!`)
+      : res.status(400).send("Province/State Update incomplete");
   } catch (err) {
     console.log(err);
     res.status(500).send(`An error occured: ${err.detail}`); //SENDS STATUS TO CONSOLE AND CLIENT
   }
 });
 
-router.put("/vehicles_sold/:id", async (req, res) => {
-  const num_sold = req.body.num_sold;
-  //run sql query for update into the agents
+router.put("/vehicles_sold", async (req, res) => {
+  try {
+    console.log(req.body);
+    const { id, vehicles_sold } = req.body;
+
+    result = await pool.query(
+      "Update agent SET vehicles_sold=$1 WHERE agent_id=$2 ",
+      [vehicles_sold, id]
+    );
+
+    console.log(result.rowCount);
+
+    result.rowCount > 0
+      ? res
+          .status(200)
+          .send(
+            `Number of vehicles solde for Agent_id: ${id} was successfully updated!`
+          )
+      : res.status(400).send("Province/State Update incomplete");
+  } catch (err) {
+    console.log(err);
+    res.status(500).send(`An error occured: ${err.detail}`); //SENDS STATUS TO CONSOLE AND CLIENT
+  }
 });
 
 //USE PARAMS TO ALSO MAKE QURIES TO get the users first name an dlast name then log that? , before doing any consequent operations?
