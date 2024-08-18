@@ -86,12 +86,13 @@ router.put("/address", async (req, res) => {
       address,
       id,
     ]);
+
     result.rows.length > 0
       ? res.status(200).json(result.rows)
       : res.status(400).send("No agents exist");
   } catch (err) {
     console.log(err);
-    res.sendStatus(); //SENDS STATUS TO CONSOLE AND CLIENT
+    res.sendStatus(`An error occured: ${err.detail}`); //SENDS STATUS TO CONSOLE AND CLIENT
   }
 
   //run sql query for update into the agents
