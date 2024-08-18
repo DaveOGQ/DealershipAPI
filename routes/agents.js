@@ -88,7 +88,9 @@ router.put("/address", async (req, res) => {
     ]);
 
     result.rows.length > 0
-      ? res.status(200).json(result.rows)
+      ? res
+          .status(200)
+          .send(`Address for Agent_id: ${id} was successfully updated!`)
       : res.status(400).send("No agents exist");
   } catch (err) {
     console.log(err);
