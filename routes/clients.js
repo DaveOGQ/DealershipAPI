@@ -3,19 +3,19 @@ const router = express.Router();
 const pool = require("../db.js"); // pool for database connection
 const generateUniqueRandomId = require("./generateID.js"); //generate id function
 
-//all routes from this file will be prefixed with the path "/users" in server js thus "/" here is actually "/users"
+//all routes from this file will be prefixed with the path "/clients" in server js thus "/" here is actually "/clients"
 
-/* || HOME PATH ROUTE FOR GETTING ALL USERS AND ADDING A NEW USER || */
+/* || HOME PATH ROUTE FOR GETTING ALL CLIENTS AND ADDING A NEW CLIENT || */
 router
   .route("/")
   .get(async (req, res) => {
     try {
-      result = await pool.query("SELECT * FROM agent");
+      result = await pool.query("SELECT * FROM client");
 
       //check result of rows selected
       result.rows.length > 0
         ? res.status(200).json(result.rows)
-        : res.status(400).send("No agents exist");
+        : res.status(400).send("No clients exist");
     } catch (err) {
       console.log(err);
       res
@@ -28,7 +28,7 @@ router
       console.log(req.body);
 
       //destructure the req.body object
-      const { fname, lname, address, city, province_state, vehicles_sold } =
+      const { fname, lname, address, city, province_state, client_since } =
         req.body;
 
       //create new id for the user being added
@@ -36,12 +36,12 @@ router
       console.log("Generated ID:", id);
 
       result = await pool.query(
-        "INSERT INTO agent (agent_id, fname, lname, address, city, province_state, vehicles_sold)VALUES ($1, $2, $3, $4, $5, $6, $7);",
-        [id, fname, lname, address, city, province_state, vehicles_sold]
+        "INSERT INTO client (client_id, fname, lname, address, city, province_state, client_since)VALUES ($1, $2, $3, $4, $5, $6, $7);",
+        [id, fname, lname, address, city, province_state, client_since]
       );
 
       //return the new generated id to the client
-      res.status(200).json({ agent_id: id });
+      res.status(200).json({ client_id: id });
     } catch (err) {
       console.error(err);
       res
@@ -50,18 +50,18 @@ router
     }
   });
 
-/* || ID  ROUTES, GETTING A SPECIFIC AGENT AND DELETING ONE BY SPECIFIED ID || */
+/* || ID  ROUTES, GETTING A SPECIFIC CLIENT AND DELETING ONE BY SPECIFIED ID || */
 router
   .route("/:id")
   .get(async (req, res) => {
     /* GETS A SINGLE USER BY ID */
     try {
-      result = await pool.query("SELECT * FROM agent WHERE agent_id = $1", [
+      result = await pool.query("SELECT * FROM client WHERE client_id = $1", [
         req.params.id,
       ]);
       result.rows.length > 0
         ? res.status(200).json(result.rows[0])
-        : res.status(400).send("No agents exist with the given ID.");
+        : res.status(400).send("No clients exist with the given ID.");
     } catch (err) {
       console.log(err);
       res
@@ -71,15 +71,15 @@ router
   })
   .delete(async (req, res) => {
     try {
-      result = await pool.query("DELETE FROM agent WHERE agent_id = $1", [
+      result = await pool.query("DELETE FROM client WHERE client_id = $1", [
         req.params.id,
       ]);
       // check that rows are affected to verify succesfully operation
       result.rowCount > 0
         ? res
             .status(200)
-            .send(`Agent with ID ${req.params.id} was deleted successfully.`)
-        : res.status(400).send("No agents exist with the given ID.");
+            .send(`client with ID ${req.params.id} was deleted successfully.`)
+        : res.status(400).send("No clients exist with the given ID.");
     } catch (err) {
       console.log(err);
       res
@@ -95,7 +95,7 @@ router.put("/address", async (req, res) => {
     const { id, address } = req.body;
 
     result = await pool.query(
-      "Update agent SET address=$1 WHERE agent_id=$2 ",
+      "Update client SET address=$1 WHERE client_id=$2 ",
       [address, id]
     );
 
@@ -105,7 +105,7 @@ router.put("/address", async (req, res) => {
     result.rowCount > 0
       ? res
           .status(200)
-          .send(`Address for Agent_id: ${id} was successfully updated!`)
+          .send(`Address for client_id: ${id} was successfully updated!`)
       : res
           .status(400)
           .send(
@@ -125,7 +125,7 @@ router.put("/city", async (req, res) => {
     console.log(req.body);
     const { id, city } = req.body;
 
-    result = await pool.query("Update agent SET city=$1 WHERE agent_id=$2 ", [
+    result = await pool.query("Update client SET city=$1 WHERE client_id=$2 ", [
       city,
       id,
     ]);
@@ -136,7 +136,7 @@ router.put("/city", async (req, res) => {
     result.rowCount > 0
       ? res
           .status(200)
-          .send(`City for Agent_id: ${id} was successfully updated!`)
+          .send(`City for client_id: ${id} was successfully updated!`)
       : res
           .status(400)
           .send(
@@ -148,7 +148,7 @@ router.put("/city", async (req, res) => {
       .status(500)
       .send("An unexpected error occurred. Please try again later."); //SENDS STATUS TO CONSOLE AND CLIENT
   }
-  //run sql query for update into the agents
+  //run sql query for update into the clients
 });
 
 /* || PROVINCE/STATE UPDATE  ROUTE || */
@@ -158,7 +158,7 @@ router.put("/province_state", async (req, res) => {
     const { id, province_state } = req.body;
 
     result = await pool.query(
-      "Update agent SET province_state=$1 WHERE agent_id=$2 ",
+      "Update client SET province_state=$1 WHERE client_id=$2 ",
       [province_state, id]
     );
 
@@ -166,7 +166,7 @@ router.put("/province_state", async (req, res) => {
     result.rowCount > 0
       ? res
           .status(200)
-          .send(`Province/State for Agent_id: ${id} was successfully updated!`)
+          .send(`Province/State for client_id: ${id} was successfully updated!`)
       : res
           .status(400)
           .send(
@@ -180,15 +180,15 @@ router.put("/province_state", async (req, res) => {
   }
 });
 
-// /* || NUMBER OF SOLD VEHICLES UPDATE  ROUTE || */
-// router.put("/vehicles_sold", async (req, res) => {
+// /* || Sign Up date UPDATE  ROUTE || */
+// router.put("/client_since", async (req, res) => {
 //   try {
 //     console.log(req.body);
-//     const { id, vehicles_sold } = req.body;
+//     const { id, client_since } = req.body;
 
 //     result = await pool.query(
-//       "Update agent SET vehicles_sold=$1 WHERE agent_id=$2 ",
-//       [vehicles_sold, id]
+//       "Update client SET client_since=$1 WHERE client_id=$2 ",
+//       [client_since, id]
 //     );
 
 //     console.log(result.rowCount);
@@ -198,12 +198,12 @@ router.put("/province_state", async (req, res) => {
 //       ? res
 //           .status(200)
 //           .send(
-//             `Number of vehicles sold for Agent_id: ${id} was successfully updated!`
+//             `Number of vehicles sold for client_id: ${id} was successfully updated!`
 //           )
 //       : res
 //           .status(400)
 //           .send(
-//             "Bad request: Missing or incorrect data provided for 'id' or 'vehicles_sold'."
+//             "Bad request: Missing or incorrect data provided for 'id' or 'client_since'."
 //           );
 //   } catch (err) {
 //     console.log(err);

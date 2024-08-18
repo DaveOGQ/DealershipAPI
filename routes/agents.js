@@ -3,9 +3,9 @@ const router = express.Router();
 const pool = require("../db.js"); // pool for database connection
 const generateUniqueRandomId = require("./generateID.js"); //generate id function
 
-//all routes from this file will be prefixed with the path "/users" in server js thus "/" here is actually "/users"
+//all routes from this file will be prefixed with the path "/agents" in server js thus "/" here is actually "/agents"
 
-/* || HOME PATH ROUTE FOR GETTING ALL USERS AND ADDING A NEW USER || */
+/* || HOME PATH ROUTE FOR GETTING ALL AGENTS AND ADDING A NEW AGENT || */
 router
   .route("/")
   .get(async (req, res) => {
@@ -105,7 +105,7 @@ router.put("/address", async (req, res) => {
     result.rowCount > 0
       ? res
           .status(200)
-          .send(`Address for Agent_id: ${id} was successfully updated!`)
+          .send(`Address for agent_id: ${id} was successfully updated!`)
       : res
           .status(400)
           .send(
@@ -136,7 +136,7 @@ router.put("/city", async (req, res) => {
     result.rowCount > 0
       ? res
           .status(200)
-          .send(`City for Agent_id: ${id} was successfully updated!`)
+          .send(`City for agent_id: ${id} was successfully updated!`)
       : res
           .status(400)
           .send(
@@ -166,7 +166,7 @@ router.put("/province_state", async (req, res) => {
     result.rowCount > 0
       ? res
           .status(200)
-          .send(`Province/State for Agent_id: ${id} was successfully updated!`)
+          .send(`Province/State for agent_id: ${id} was successfully updated!`)
       : res
           .status(400)
           .send(
@@ -198,7 +198,7 @@ router.put("/vehicles_sold", async (req, res) => {
       ? res
           .status(200)
           .send(
-            `Number of vehicles sold for Agent_id: ${id} was successfully updated!`
+            `Number of vehicles sold for agent_id: ${id} was successfully updated!`
           )
       : res
           .status(400)
