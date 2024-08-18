@@ -200,7 +200,11 @@ router.put("/vehicles_sold", async (req, res) => {
           .send(
             `Number of vehicles sold for Agent_id: ${id} was successfully updated!`
           )
-      : res.status(400).send("Province/State Update incomplete");
+      : res
+          .status(400)
+          .send(
+            "Bad request: Missing or incorrect data provided for 'id' or 'vehicles_sold'."
+          );
   } catch (err) {
     console.log(err);
     res
