@@ -176,7 +176,7 @@ router.put("/province_state", async (req, res) => {
     console.log(err);
     res
       .status(500)
-      .send("An unexpected error occurred. Please try again later."); //SENDS STATUS TO CONSOLE AND CLIENT
+      .send("An unexpected error occurred. Please try again later.");
   }
 });
 
@@ -205,9 +205,9 @@ router.put("/vehicles_sold", async (req, res) => {
     console.log(err);
     res
       .status(500)
-      .send("An unexpected error occurred. Please try again later."); //SENDS STATUS TO CONSOLE AND CLIENT
+      .send("An unexpected error occurred. Please try again later.");
   }
 });
 
-//USE PARAMS TO ALSO MAKE QURIES TO get the users first name an dlast name then log that? , before doing any consequent operations?
+//USE PARAMS TO ALSO MAKE QURIES TO get the users first name and last name then log that? , before doing any consequent operations?
 module.exports = router;
