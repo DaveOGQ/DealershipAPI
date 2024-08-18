@@ -80,6 +80,7 @@ router
 
 router.put("/address", async (req, res) => {
   try {
+    console.log(req.body);
     const { id, address } = req.body;
 
     result = await pool.query(
@@ -87,11 +88,13 @@ router.put("/address", async (req, res) => {
       [address, id]
     );
 
-    result.rowsCount > 0
+    console.log(result.rowCount);
+
+    result.rowCount > 0
       ? res
           .status(200)
           .send(`Address for Agent_id: ${id} was successfully updated!`)
-      : res.status(400).send("No agents exist");
+      : res.status(400).send("Update incomplete");
   } catch (err) {
     console.log(err);
     res.status(500).send(`An error occured: ${err.detail}`); //SENDS STATUS TO CONSOLE AND CLIENT
@@ -101,12 +104,50 @@ router.put("/address", async (req, res) => {
 });
 
 router.put("/city", async (req, res) => {
+  try {
+    console.log(req.body);
+    const { id, city } = req.body;
+
+    result = await pool.query("Update agent SET city=$1 WHERE agent_id=$2 ", [
+      city,
+      id,
+    ]);
+
+    console.log(result.rowCount);
+
+    result.rowCount > 0
+      ? res
+          .status(200)
+          .send(`City for Agent_id: ${id} was successfully updated!`)
+      : res.status(400).send("Update incomplete");
+  } catch (err) {
+    console.log(err);
+    res.status(500).send(`An error occured: ${err.detail}`); //SENDS STATUS TO CONSOLE AND CLIENT
+  }
   //run sql query for update into the agents
 });
 
-router.put("/province_state/:id", async (req, res) => {
-  const province_state = req.body.province_state;
-  //run sql query for update into the agents
+router.put("/province_state", async (req, res) => {
+  try {
+    console.log(req.body);
+    const { id, address } = req.body;
+
+    result = await pool.query(
+      "Update agent SET address=$1 WHERE agent_id=$2 ",
+      [address, id]
+    );
+
+    console.log(result.rowCount);
+
+    result.rowCount > 0
+      ? res
+          .status(200)
+          .send(`Address for Agent_id: ${id} was successfully updated!`)
+      : res.status(400).send("Update incomplete");
+  } catch (err) {
+    console.log(err);
+    res.status(500).send(`An error occured: ${err.detail}`); //SENDS STATUS TO CONSOLE AND CLIENT
+  }
 });
 
 router.put("/vehicles_sold/:id", async (req, res) => {
