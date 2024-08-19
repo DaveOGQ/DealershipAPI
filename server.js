@@ -2,7 +2,7 @@ require("dotenv").config(); // Load environment variables first
 const express = require("express");
 const pool = require("./db");
 
-const port = process.env.LOCALHOST_PORT || 3000;
+const port = process.env.NODE_DOCKER_PORT || 1137;
 
 const app = express();
 app.use(logger);
