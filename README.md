@@ -112,4 +112,8 @@ Note: Make sure to map ports accordingly if you have applications running on def
 # PostgreSql
 
 - ### init.sql
+
   - This file setup up for database the first time you run the docker containers, if you want to add to the database feel free to do so and add the corresponding routes
+
+- ### db.js
+  - This file uses the pg package and sets up a pool for makng connections to the database using the variables defined in your .env file.
