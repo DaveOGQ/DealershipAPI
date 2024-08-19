@@ -20,6 +20,9 @@ services:
       - ./.env
     ports:
       - $NODE_LOCAL_PORT:$NODE_DOCKER_PORT
+    # for development with devStart script, volumes reflect changes in code in local machine and allow for the docker containers to reflect those changes
+    volumes:
+      -
     #although the current .env file does not contain DB_Host, DB_PORT etc. even though db.js requires it
     #we are currently setting those variable manully in here and mapping them to the current values in our .env
     #hence why we are mapping DB_USER to POSTGRESDB_USER
@@ -32,6 +35,9 @@ services:
       DB_PORT: $POSTGRESDB_DOCKER_PORT
     depends_on:
       - postgres_dealership_db
+    #uncomment the lines below to see terminal when you run docker compose
+    stdin_open: true
+    tty: true
 
 volumes:
   postgres-data:
