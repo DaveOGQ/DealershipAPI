@@ -88,7 +88,10 @@ The dockerfile and docker compsose files can be cofigured to update the containe
 
 ### Run Docker container
 
-    docker compose up
+    docker compose up #start containers
+    docker compose up -d #detached mode, start containers without displaying build info
+    docker compose down #stop and remove containers but persist the volume
+    docker compose down -v #stop and remove containers and volume
 
 Access the server and db at the ports you define below.
 
