@@ -58,6 +58,28 @@ Each route will have basic CRUD operations and more specific routes and queuries
 
 ### Continous Development
 
+#### local development
+
+for local developement add the following variables to the .env file and rename them accoringly in db.js
+
+    DB_HOST=localhost
+    DB_PORT=
+    DB_USER=
+    DB_PASSWORD=
+    DB_NAME=
+
+#### docker develepment
+
+The dockerfile and docker compsose files can be cofigured to update the containers upon any saved changes.
+
+- For development purposes uncomment the Dockerfile command, docker-compose volumes line for the api and console.log() statements in the routes files
+
+  - CMD ["npm", "run", "devStart"] in Dockerfile
+  - volumes: .:/usr/src/app in docker-compose.yml
+
+- For production keep the default
+  - CMD ["npm", "run", "start"]
+
 ## Creating and Running Docker Containers
 
 - When running the .yml file for the first time the init.sql file will be used to setup the databse.
