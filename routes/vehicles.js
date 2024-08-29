@@ -97,4 +97,29 @@ router
     }
   });
 
+/* || VEHICLE UPDATE ROUTES || */
+
+/* Update kilometers */
+router.put("/kilometers", async (req, res) => {
+  try {
+    const { vin, kilometers } = req.body;
+
+    const result = await pool.query(
+      "UPDATE vehicle SET kilometers = $1 WHERE vin = $2",
+      [kilometers, vin]
+    );
+
+    result.rowCount > 0
+      ? res
+          .status(200)
+          .send(`Kilometers for VIN: ${vin} were successfully updated!`)
+      : res.status(400).send("Bad request: Incorrect VIN or kilometers data.");
+  } catch (err) {
+    console.error(err);
+    res
+      .status(500)
+      .send("An unexpected error occurred. Please try again later.");
+  }
+});
+
 module.exports = router;
