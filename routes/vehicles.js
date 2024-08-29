@@ -122,4 +122,25 @@ router.put("/kilometers", async (req, res) => {
   }
 });
 
+/* Update price */
+router.put("/price", async (req, res) => {
+  try {
+    const { vin, price } = req.body;
+
+    const result = await pool.query(
+      "UPDATE vehicle SET price = $1 WHERE vin = $2",
+      [price, vin]
+    );
+
+    result.rowCount > 0
+      ? res.status(200).send(`Price for VIN: ${vin} was successfully updated!`)
+      : res.status(400).send("Bad request: Incorrect VIN or price data.");
+  } catch (err) {
+    console.error(err);
+    res
+      .status(500)
+      .send("An unexpected error occurred. Please try again later.");
+  }
+});
+
 module.exports = router;
