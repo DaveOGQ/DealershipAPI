@@ -216,18 +216,34 @@ router.put("/sold", async (req, res) => {
   }
 });
 
-router.get("/body_type/:type", async (req, res) => {
+// Route to get all vehicles by body type using query parameters
+router.get("/", async (req, res) => {
   try {
-    const { type } = req.params; // Get the body type from the URL parameter
+    const { body_type } = req.query; // Get the body type from the query parameter
 
-    const result = await pool.query(
-      "SELECT * FROM vehicle WHERE body_type = $1",
-      [type]
-    );
+    // If body_type is provided, query based on it
+    if (body_type) {
+      const result = await pool.query(
+        "SELECT * FROM vehicle WHERE body_type = $1",
+        [body_type]
+      );
 
-    result.rows.length > 0
-      ? res.status(200).json(result.rows)
-      : res.status(400).send(`No vehicles found with body type: ${type}`);
+      result.rows.length > 0
+        ? res.status(200).json(result.rows)
+        : res
+            .status(400)
+            .send(
+              `Invalid body type. Only the following 7 body types are available: ${validBodyTypes.join(
+                ", "
+              )}`
+            );
+    } else {
+      // If no body_type query parameter is provided, return all vehicles
+      const result = await pool.query("SELECT * FROM vehicle");
+      result.rows.length > 0
+        ? res.status(200).json(result.rows)
+        : res.status(400).send("No vehicles exist.");
+    }
   } catch (err) {
     console.error(err);
     res
