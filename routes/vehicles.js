@@ -57,4 +57,22 @@ router
     }
   });
 
+/* || VIN-SPECIFIC ROUTES FOR GETTING AND DELETING A VEHICLE || */
+router.route("/:vin").get(async (req, res) => {
+  try {
+    const result = await pool.query("SELECT * FROM vehicle WHERE vin = $1", [
+      req.params.vin,
+    ]);
+
+    result.rows.length > 0
+      ? res.status(200).json(result.rows[0])
+      : res.status(400).send("No vehicle exists with the given VIN.");
+  } catch (err) {
+    console.error(err);
+    res
+      .status(500)
+      .send("An unexpected error occurred. Please try again later.");
+  }
+});
+
 module.exports = router;
