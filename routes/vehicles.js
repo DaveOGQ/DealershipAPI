@@ -216,4 +216,24 @@ router.put("/sold", async (req, res) => {
   }
 });
 
+router.get("/body_type/:type", async (req, res) => {
+  try {
+    const { type } = req.params; // Get the body type from the URL parameter
+
+    const result = await pool.query(
+      "SELECT * FROM vehicle WHERE body_type = $1",
+      [type]
+    );
+
+    result.rows.length > 0
+      ? res.status(200).json(result.rows)
+      : res.status(400).send(`No vehicles found with body type: ${type}`);
+  } catch (err) {
+    console.error(err);
+    res
+      .status(500)
+      .send("An unexpected error occurred. Please try again later.");
+  }
+});
+
 module.exports = router;
