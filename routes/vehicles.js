@@ -17,6 +17,34 @@ router.route("/").get(async (req, res) => {
       .status(500)
       .send("An unexpected error occurred. Please try again later.");
   }
-});
+}).post(async (req, res) => {
+  try {
+    const {
+      vin,
+      make,
+      model,
+      manufacture_year,
+      kilometers,
+      price,
+      delivery_available,
+      sold,
+      body_type,
+    } = req.body;
+
+    const result = await pool.query(
+      "INSERT INTO vehicle (vin, make, model, manufacture_year, kilometers, price, delivery_available, sold, body_type) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)",
+      [
+        vin,
+        make,
+        model,
+        manufacture_year,
+        kilometers,
+        price,
+        delivery_available,
+        sold,
+        body_type,
+      ]
+    );
+
 
 module.exports = router;
