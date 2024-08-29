@@ -170,4 +170,50 @@ router.put("/delivery_available", async (req, res) => {
   }
 });
 
+/* Update sold status */
+router.put("/sold", async (req, res) => {
+  try {
+    const { vin, sold } = req.body;
+
+    const result = await pool.query(
+      "UPDATE vehicle SET sold = $1 WHERE vin = $2",
+      [sold, vin]
+    );
+
+    result.rowCount > 0
+      ? res
+          .status(200)
+          .send(`Sold status for VIN: ${vin} was successfully updated!`)
+      : res.status(400).send("Bad request: Incorrect VIN or sold status data.");
+  } catch (err) {
+    console.error(err);
+    res
+      .status(500)
+      .send("An unexpected error occurred. Please try again later.");
+  }
+});
+
+/* Update sold status */
+router.put("/sold", async (req, res) => {
+  try {
+    const { vin, sold } = req.body;
+
+    const result = await pool.query(
+      "UPDATE vehicle SET sold = $1 WHERE vin = $2",
+      [sold, vin]
+    );
+
+    result.rowCount > 0
+      ? res
+          .status(200)
+          .send(`Sold status for VIN: ${vin} was successfully updated!`)
+      : res.status(400).send("Bad request: Incorrect VIN or sold status data.");
+  } catch (err) {
+    console.error(err);
+    res
+      .status(500)
+      .send("An unexpected error occurred. Please try again later.");
+  }
+});
+
 module.exports = router;
