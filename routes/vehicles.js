@@ -143,4 +143,31 @@ router.put("/price", async (req, res) => {
   }
 });
 
+/* Update delivery availability */
+router.put("/delivery_available", async (req, res) => {
+  try {
+    const { vin, delivery_available } = req.body;
+
+    const result = await pool.query(
+      "UPDATE vehicle SET delivery_available = $1 WHERE vin = $2",
+      [delivery_available, vin]
+    );
+
+    result.rowCount > 0
+      ? res
+          .status(200)
+          .send(
+            `Delivery availability for VIN: ${vin} was successfully updated!`
+          )
+      : res
+          .status(400)
+          .send("Bad request: Incorrect VIN or delivery availability data.");
+  } catch (err) {
+    console.error(err);
+    res
+      .status(500)
+      .send("An unexpected error occurred. Please try again later.");
+  }
+});
+
 module.exports = router;
