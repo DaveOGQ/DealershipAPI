@@ -98,6 +98,36 @@ router
   });
 
 /* || VEHICLE UPDATE ROUTES || */
+/* Generalized Update Route */
+router.put("/:field", async (req, res) => {
+  const { vin, value } = req.body;
+  const validFields = ["kilometers", "price", "delivery_available", "sold"];
+  const { field } = req.params;
+
+  if (!validFields.includes(field)) {
+    return res.status(400).send("Invalid field for update.");
+  }
+
+  try {
+    const result = await pool.query(
+      `UPDATE vehicle SET ${field} = $1 WHERE vin = $2`,
+      [value, vin]
+    );
+
+    result.rowCount > 0
+      ? res
+          .status(200)
+          .send(`${field} for VIN: ${vin} was successfully updated!`)
+      : res.status(400).send("Bad request: Incorrect VIN or field data.");
+  } catch (err) {
+    console.error(err);
+    res
+      .status(500)
+      .send("An unexpected error occurred. Please try again later.");
+  }
+});
+
+/* || VEHICLE UPDATE ROUTES || */
 
 // /* Update kilometers */
 // router.put("/kilometers", async (req, res) => {
