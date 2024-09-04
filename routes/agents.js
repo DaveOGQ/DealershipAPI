@@ -88,130 +88,130 @@ router
     }
   });
 
-/* || ADDRESS UPDATE  ROUTE || */
-router.put("/address", async (req, res) => {
-  try {
-    console.log(req.body);
-    const { id, address } = req.body;
+// /* || ADDRESS UPDATE  ROUTE || */
+// router.put("/address", async (req, res) => {
+//   try {
+//     console.log(req.body);
+//     const { id, address } = req.body;
 
-    result = await pool.query(
-      "Update agent SET address=$1 WHERE agent_id=$2 ",
-      [address, id]
-    );
+//     result = await pool.query(
+//       "Update agent SET address=$1 WHERE agent_id=$2 ",
+//       [address, id]
+//     );
 
-    console.log(result.rowCount);
+//     console.log(result.rowCount);
 
-    // check that rows are affected to verify succesfully operation
-    result.rowCount > 0
-      ? res
-          .status(200)
-          .send(`Address for agent_id: ${id} was successfully updated!`)
-      : res
-          .status(400)
-          .send(
-            "Bad request: Missing or incorrect data provided for 'id' or 'address'."
-          );
-  } catch (err) {
-    console.log(err);
-    res
-      .status(500)
-      .send("An unexpected error occurred. Please try again later."); //SENDS STATUS TO CONSOLE AND CLIENT
-  }
-});
+//     // check that rows are affected to verify succesfully operation
+//     result.rowCount > 0
+//       ? res
+//           .status(200)
+//           .send(`Address for agent_id: ${id} was successfully updated!`)
+//       : res
+//           .status(400)
+//           .send(
+//             "Bad request: Missing or incorrect data provided for 'id' or 'address'."
+//           );
+//   } catch (err) {
+//     console.log(err);
+//     res
+//       .status(500)
+//       .send("An unexpected error occurred. Please try again later."); //SENDS STATUS TO CONSOLE AND CLIENT
+//   }
+// });
 
-/* || CITY UPDATE  ROUTE || */
-router.put("/city", async (req, res) => {
-  try {
-    console.log(req.body);
-    const { id, city } = req.body;
+// /* || CITY UPDATE  ROUTE || */
+// router.put("/city", async (req, res) => {
+//   try {
+//     console.log(req.body);
+//     const { id, city } = req.body;
 
-    result = await pool.query("Update agent SET city=$1 WHERE agent_id=$2 ", [
-      city,
-      id,
-    ]);
+//     result = await pool.query("Update agent SET city=$1 WHERE agent_id=$2 ", [
+//       city,
+//       id,
+//     ]);
 
-    console.log(result.rowCount);
+//     console.log(result.rowCount);
 
-    // check that rows are affected to verify succesfully operation
-    result.rowCount > 0
-      ? res
-          .status(200)
-          .send(`City for agent_id: ${id} was successfully updated!`)
-      : res
-          .status(400)
-          .send(
-            "Bad request: Missing or incorrect data provided for 'id' or 'city'."
-          );
-  } catch (err) {
-    console.log(err);
-    res
-      .status(500)
-      .send("An unexpected error occurred. Please try again later."); //SENDS STATUS TO CONSOLE AND CLIENT
-  }
-  //run sql query for update into the agents
-});
+//     // check that rows are affected to verify succesfully operation
+//     result.rowCount > 0
+//       ? res
+//           .status(200)
+//           .send(`City for agent_id: ${id} was successfully updated!`)
+//       : res
+//           .status(400)
+//           .send(
+//             "Bad request: Missing or incorrect data provided for 'id' or 'city'."
+//           );
+//   } catch (err) {
+//     console.log(err);
+//     res
+//       .status(500)
+//       .send("An unexpected error occurred. Please try again later."); //SENDS STATUS TO CONSOLE AND CLIENT
+//   }
+//   //run sql query for update into the agents
+// });
 
-/* || PROVINCE/STATE UPDATE  ROUTE || */
-router.put("/province_state", async (req, res) => {
-  try {
-    console.log(req.body);
-    const { id, province_state } = req.body;
+// /* || PROVINCE/STATE UPDATE  ROUTE || */
+// router.put("/province_state", async (req, res) => {
+//   try {
+//     console.log(req.body);
+//     const { id, province_state } = req.body;
 
-    result = await pool.query(
-      "Update agent SET province_state=$1 WHERE agent_id=$2 ",
-      [province_state, id]
-    );
+//     result = await pool.query(
+//       "Update agent SET province_state=$1 WHERE agent_id=$2 ",
+//       [province_state, id]
+//     );
 
-    // check that rows are affected to verify succesfully operation
-    result.rowCount > 0
-      ? res
-          .status(200)
-          .send(`Province/State for agent_id: ${id} was successfully updated!`)
-      : res
-          .status(400)
-          .send(
-            "Bad request: Missing or incorrect data provided for 'id' or 'province_state'."
-          );
-  } catch (err) {
-    console.log(err);
-    res
-      .status(500)
-      .send("An unexpected error occurred. Please try again later.");
-  }
-});
+//     // check that rows are affected to verify succesfully operation
+//     result.rowCount > 0
+//       ? res
+//           .status(200)
+//           .send(`Province/State for agent_id: ${id} was successfully updated!`)
+//       : res
+//           .status(400)
+//           .send(
+//             "Bad request: Missing or incorrect data provided for 'id' or 'province_state'."
+//           );
+//   } catch (err) {
+//     console.log(err);
+//     res
+//       .status(500)
+//       .send("An unexpected error occurred. Please try again later.");
+//   }
+// });
 
-/* || NUMBER OF SOLD VEHICLES UPDATE  ROUTE || */
-router.put("/vehicles_sold", async (req, res) => {
-  try {
-    console.log(req.body);
-    const { id, vehicles_sold } = req.body;
+// /* || NUMBER OF SOLD VEHICLES UPDATE  ROUTE || */
+// router.put("/vehicles_sold", async (req, res) => {
+//   try {
+//     console.log(req.body);
+//     const { id, vehicles_sold } = req.body;
 
-    result = await pool.query(
-      "Update agent SET vehicles_sold=$1 WHERE agent_id=$2 ",
-      [vehicles_sold, id]
-    );
+//     result = await pool.query(
+//       "Update agent SET vehicles_sold=$1 WHERE agent_id=$2 ",
+//       [vehicles_sold, id]
+//     );
 
-    console.log(result.rowCount);
+//     console.log(result.rowCount);
 
-    // check that rows are affected to verify succesfully operation
-    result.rowCount > 0
-      ? res
-          .status(200)
-          .send(
-            `Number of vehicles sold for agent_id: ${id} was successfully updated!`
-          )
-      : res
-          .status(400)
-          .send(
-            "Bad request: Missing or incorrect data provided for 'id' or 'vehicles_sold'."
-          );
-  } catch (err) {
-    console.log(err);
-    res
-      .status(500)
-      .send("An unexpected error occurred. Please try again later.");
-  }
-});
+//     // check that rows are affected to verify succesfully operation
+//     result.rowCount > 0
+//       ? res
+//           .status(200)
+//           .send(
+//             `Number of vehicles sold for agent_id: ${id} was successfully updated!`
+//           )
+//       : res
+//           .status(400)
+//           .send(
+//             "Bad request: Missing or incorrect data provided for 'id' or 'vehicles_sold'."
+//           );
+//   } catch (err) {
+//     console.log(err);
+//     res
+//       .status(500)
+//       .send("An unexpected error occurred. Please try again later.");
+//   }
+// });
 
 //USE PARAMS TO ALSO MAKE QURIES TO get the users first name and last name then log that? , before doing any consequent operations?
 module.exports = router;
