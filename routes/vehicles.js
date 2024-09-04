@@ -99,157 +99,134 @@ router
 
 /* || VEHICLE UPDATE ROUTES || */
 
-/* Update kilometers */
-router.put("/kilometers", async (req, res) => {
-  try {
-    const { vin, kilometers } = req.body;
+// /* Update kilometers */
+// router.put("/kilometers", async (req, res) => {
+//   try {
+//     const { vin, kilometers } = req.body;
 
-    const result = await pool.query(
-      "UPDATE vehicle SET kilometers = $1 WHERE vin = $2",
-      [kilometers, vin]
-    );
+//     const result = await pool.query(
+//       "UPDATE vehicle SET kilometers = $1 WHERE vin = $2",
+//       [kilometers, vin]
+//     );
 
-    result.rowCount > 0
-      ? res
-          .status(200)
-          .send(`Kilometers for VIN: ${vin} were successfully updated!`)
-      : res.status(400).send("Bad request: Incorrect VIN or kilometers data.");
-  } catch (err) {
-    console.error(err);
-    res
-      .status(500)
-      .send("An unexpected error occurred. Please try again later.");
-  }
-});
+//     result.rowCount > 0
+//       ? res
+//           .status(200)
+//           .send(`Kilometers for VIN: ${vin} were successfully updated!`)
+//       : res.status(400).send("Bad request: Incorrect VIN or kilometers data.");
+//   } catch (err) {
+//     console.error(err);
+//     res
+//       .status(500)
+//       .send("An unexpected error occurred. Please try again later.");
+//   }
+// });
 
-/* Update price */
-router.put("/price", async (req, res) => {
-  try {
-    const { vin, price } = req.body;
+// /* Update price */
+// router.put("/price", async (req, res) => {
+//   try {
+//     const { vin, price } = req.body;
 
-    const result = await pool.query(
-      "UPDATE vehicle SET price = $1 WHERE vin = $2",
-      [price, vin]
-    );
+//     const result = await pool.query(
+//       "UPDATE vehicle SET price = $1 WHERE vin = $2",
+//       [price, vin]
+//     );
 
-    result.rowCount > 0
-      ? res.status(200).send(`Price for VIN: ${vin} was successfully updated!`)
-      : res.status(400).send("Bad request: Incorrect VIN or price data.");
-  } catch (err) {
-    console.error(err);
-    res
-      .status(500)
-      .send("An unexpected error occurred. Please try again later.");
-  }
-});
+//     result.rowCount > 0
+//       ? res.status(200).send(`Price for VIN: ${vin} was successfully updated!`)
+//       : res.status(400).send("Bad request: Incorrect VIN or price data.");
+//   } catch (err) {
+//     console.error(err);
+//     res
+//       .status(500)
+//       .send("An unexpected error occurred. Please try again later.");
+//   }
+// });
 
-/* Update delivery availability */
-router.put("/delivery_available", async (req, res) => {
-  try {
-    const { vin, delivery_available } = req.body;
+// /* Update delivery availability */
+// router.put("/delivery_available", async (req, res) => {
+//   try {
+//     const { vin, delivery_available } = req.body;
 
-    const result = await pool.query(
-      "UPDATE vehicle SET delivery_available = $1 WHERE vin = $2",
-      [delivery_available, vin]
-    );
+//     const result = await pool.query(
+//       "UPDATE vehicle SET delivery_available = $1 WHERE vin = $2",
+//       [delivery_available, vin]
+//     );
 
-    result.rowCount > 0
-      ? res
-          .status(200)
-          .send(
-            `Delivery availability for VIN: ${vin} was successfully updated!`
-          )
-      : res
-          .status(400)
-          .send("Bad request: Incorrect VIN or delivery availability data.");
-  } catch (err) {
-    console.error(err);
-    res
-      .status(500)
-      .send("An unexpected error occurred. Please try again later.");
-  }
-});
+//     result.rowCount > 0
+//       ? res
+//           .status(200)
+//           .send(
+//             `Delivery availability for VIN: ${vin} was successfully updated!`
+//           )
+//       : res
+//           .status(400)
+//           .send("Bad request: Incorrect VIN or delivery availability data.");
+//   } catch (err) {
+//     console.error(err);
+//     res
+//       .status(500)
+//       .send("An unexpected error occurred. Please try again later.");
+//   }
+// });
 
-/* Update sold status */
-router.put("/sold", async (req, res) => {
-  try {
-    const { vin, sold } = req.body;
+// /* Update sold status */
+// router.put("/sold", async (req, res) => {
+//   try {
+//     const { vin, sold } = req.body;
 
-    const result = await pool.query(
-      "UPDATE vehicle SET sold = $1 WHERE vin = $2",
-      [sold, vin]
-    );
+//     const result = await pool.query(
+//       "UPDATE vehicle SET sold = $1 WHERE vin = $2",
+//       [sold, vin]
+//     );
 
-    result.rowCount > 0
-      ? res
-          .status(200)
-          .send(`Sold status for VIN: ${vin} was successfully updated!`)
-      : res.status(400).send("Bad request: Incorrect VIN or sold status data.");
-  } catch (err) {
-    console.error(err);
-    res
-      .status(500)
-      .send("An unexpected error occurred. Please try again later.");
-  }
-});
+//     result.rowCount > 0
+//       ? res
+//           .status(200)
+//           .send(`Sold status for VIN: ${vin} was successfully updated!`)
+//       : res.status(400).send("Bad request: Incorrect VIN or sold status data.");
+//   } catch (err) {
+//     console.error(err);
+//     res
+//       .status(500)
+//       .send("An unexpected error occurred. Please try again later.");
+//   }
+// });
 
-/* Update sold status */
-router.put("/sold", async (req, res) => {
-  try {
-    const { vin, sold } = req.body;
+// // Route to get all vehicles by body type using query parameters
+// router.get("/", async (req, res) => {
+//   try {
+//     const { body_type } = req.query; // Get the body type from the query parameter
 
-    const result = await pool.query(
-      "UPDATE vehicle SET sold = $1 WHERE vin = $2",
-      [sold, vin]
-    );
+//     // If body_type is provided, query based on it
+//     if (body_type) {
+//       const result = await pool.query(
+//         "SELECT * FROM vehicle WHERE body_type = $1",
+//         [body_type]
+//       );
 
-    result.rowCount > 0
-      ? res
-          .status(200)
-          .send(`Sold status for VIN: ${vin} was successfully updated!`)
-      : res.status(400).send("Bad request: Incorrect VIN or sold status data.");
-  } catch (err) {
-    console.error(err);
-    res
-      .status(500)
-      .send("An unexpected error occurred. Please try again later.");
-  }
-});
-
-// Route to get all vehicles by body type using query parameters
-router.get("/", async (req, res) => {
-  try {
-    const { body_type } = req.query; // Get the body type from the query parameter
-
-    // If body_type is provided, query based on it
-    if (body_type) {
-      const result = await pool.query(
-        "SELECT * FROM vehicle WHERE body_type = $1",
-        [body_type]
-      );
-
-      result.rows.length > 0
-        ? res.status(200).json(result.rows)
-        : res
-            .status(400)
-            .send(
-              `Invalid body type. Only the following 7 body types are available: ${validBodyTypes.join(
-                ", "
-              )}`
-            );
-    } else {
-      // If no body_type query parameter is provided, return all vehicles
-      const result = await pool.query("SELECT * FROM vehicle");
-      result.rows.length > 0
-        ? res.status(200).json(result.rows)
-        : res.status(400).send("No vehicles exist.");
-    }
-  } catch (err) {
-    console.error(err);
-    res
-      .status(500)
-      .send("An unexpected error occurred. Please try again later.");
-  }
-});
+//       result.rows.length > 0
+//         ? res.status(200).json(result.rows)
+//         : res
+//             .status(400)
+//             .send(
+//               `Invalid body type. Only the following 7 body types are available: ${validBodyTypes.join(
+//                 ", "
+//               )}`
+//             );
+//     } else {
+//       // If no body_type query parameter is provided, return all vehicles
+//       const result = await pool.query("SELECT * FROM vehicle");
+//       result.rows.length > 0
+//         ? res.status(200).json(result.rows)
+//         : res.status(400).send("No vehicles exist.");
+//     }
+//   } catch (err) {
+//     console.error(err);
+//     res
+//       .status(500)
+//       .send("An unexpected error occurred. Please try again later.");
+//   }
+// });
 
 module.exports = router;
