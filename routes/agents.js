@@ -88,6 +88,38 @@ router
     }
   });
 
+/* ||  UPDATE  ROUTES || */
+/* Generalized Update Route for Clients */
+router.put("/:field", async (req, res) => {
+  const { id, value } = req.body;
+  const validFields = ["address", "city", "province_state", "vehicles_sold"];
+  const { field } = req.params;
+
+  // Check if the field is valid for updating
+  if (!validFields.includes(field)) {
+    return res.status(400).send("Invalid field for update.");
+  }
+
+  try {
+    const result = await pool.query(
+      `UPDATE agent SET ${field} = $1 WHERE agent_id = $2`,
+      [value, id]
+    );
+
+    // Check if the update was successful
+    result.rowCount > 0
+      ? res
+          .status(200)
+          .send(`${field} for client ID: ${id} was successfully updated!`)
+      : res.status(400).send("Bad request: Incorrect ID or field data.");
+  } catch (err) {
+    console.error(err);
+    res
+      .status(500)
+      .send("An unexpected error occurred. Please try again later.");
+  }
+});
+
 // /* || ADDRESS UPDATE  ROUTE || */
 // router.put("/address", async (req, res) => {
 //   try {
