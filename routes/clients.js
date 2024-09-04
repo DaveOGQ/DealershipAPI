@@ -180,38 +180,38 @@ router.put("/province_state", async (req, res) => {
   }
 });
 
-// /* || Sign Up date UPDATE  ROUTE || */
-// router.put("/client_since", async (req, res) => {
-//   try {
-//     console.log(req.body);
-//     const { id, client_since } = req.body;
+/* || Sign Up date UPDATE  ROUTE || */
+router.put("/client_since", async (req, res) => {
+  try {
+    console.log(req.body);
+    const { id, client_since } = req.body;
 
-//     result = await pool.query(
-//       "Update client SET client_since=$1 WHERE client_id=$2 ",
-//       [client_since, id]
-//     );
+    result = await pool.query(
+      "Update client SET client_since=$1 WHERE client_id=$2 ",
+      [client_since, id]
+    );
 
-//     console.log(result.rowCount);
+    console.log(result.rowCount);
 
-//     // check that rows are affected to verify succesfully operation
-//     result.rowCount > 0
-//       ? res
-//           .status(200)
-//           .send(
-//             `Number of vehicles sold for client_id: ${id} was successfully updated!`
-//           )
-//       : res
-//           .status(400)
-//           .send(
-//             "Bad request: Missing or incorrect data provided for 'id' or 'client_since'."
-//           );
-//   } catch (err) {
-//     console.log(err);
-//     res
-//       .status(500)
-//       .send("An unexpected error occurred. Please try again later.");
-//   }
-// });
+    // check that rows are affected to verify succesfully operation
+    result.rowCount > 0
+      ? res
+          .status(200)
+          .send(
+            `Number of vehicles sold for client_id: ${id} was successfully updated!`
+          )
+      : res
+          .status(400)
+          .send(
+            "Bad request: Missing or incorrect data provided for 'id' or 'client_since'."
+          );
+  } catch (err) {
+    console.log(err);
+    res
+      .status(500)
+      .send("An unexpected error occurred. Please try again later.");
+  }
+});
 
 //USE PARAMS TO ALSO MAKE QURIES TO get the users first name and last name then log that? , before doing any consequent operations?
 module.exports = router;
