@@ -120,36 +120,36 @@ router.put("/:field", async (req, res) => {
   }
 });
 
-// /* || ADDRESS UPDATE  ROUTE || */
-// router.put("/address", async (req, res) => {
-//   try {
-//     console.log(req.body);
-//     const { id, address } = req.body;
+/* || ADDRESS UPDATE  ROUTE || */
+router.put("/address", async (req, res) => {
+  try {
+    console.log(req.body);
+    const { id, address } = req.body;
 
-//     result = await pool.query(
-//       "Update agent SET address=$1 WHERE agent_id=$2 ",
-//       [address, id]
-//     );
+    result = await pool.query(
+      "Update agent SET address=$1 WHERE agent_id=$2 ",
+      [address, id]
+    );
 
-//     console.log(result.rowCount);
+    console.log(result.rowCount);
 
-//     // check that rows are affected to verify succesfully operation
-//     result.rowCount > 0
-//       ? res
-//           .status(200)
-//           .send(`Address for agent_id: ${id} was successfully updated!`)
-//       : res
-//           .status(400)
-//           .send(
-//             "Bad request: Missing or incorrect data provided for 'id' or 'address'."
-//           );
-//   } catch (err) {
-//     console.log(err);
-//     res
-//       .status(500)
-//       .send("An unexpected error occurred. Please try again later."); //SENDS STATUS TO CONSOLE AND CLIENT
-//   }
-// });
+    // check that rows are affected to verify succesfully operation
+    result.rowCount > 0
+      ? res
+          .status(200)
+          .send(`Address for agent_id: ${id} was successfully updated!`)
+      : res
+          .status(400)
+          .send(
+            "Bad request: Missing or incorrect data provided for 'id' or 'address'."
+          );
+  } catch (err) {
+    console.log(err);
+    res
+      .status(500)
+      .send("An unexpected error occurred. Please try again later."); //SENDS STATUS TO CONSOLE AND CLIENT
+  }
+});
 
 // /* || CITY UPDATE  ROUTE || */
 // router.put("/city", async (req, res) => {
