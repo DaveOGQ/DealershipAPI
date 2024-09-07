@@ -14,7 +14,7 @@ function loadIds() {
   }
 }
 
-Save generated IDs to file
+// Save generated IDs to file
 function saveIds() {
   fs.writeFileSync(path, JSON.stringify([...generatedIds])); // Use fs.writeFileSync
 }
