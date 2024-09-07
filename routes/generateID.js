@@ -14,10 +14,10 @@ function loadIds() {
   }
 }
 
-// Save generated IDs to file
-// function saveIds() {
-//   fs.writeFileSync(path, JSON.stringify([...generatedIds])); // Use fs.writeFileSync
-// }
+Save generated IDs to file
+function saveIds() {
+  fs.writeFileSync(path, JSON.stringify([...generatedIds])); // Use fs.writeFileSync
+}
 
 function generateUniqueRandomId() {
   let randomId;
