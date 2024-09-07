@@ -151,37 +151,37 @@ router.put("/:field", async (req, res) => {
 //   }
 // });
 
-// /* || CITY UPDATE  ROUTE || */
-// router.put("/city", async (req, res) => {
-//   try {
-//     console.log(req.body);
-//     const { id, city } = req.body;
+/* || CITY UPDATE  ROUTE || */
+router.put("/city", async (req, res) => {
+  try {
+    console.log(req.body);
+    const { id, city } = req.body;
 
-//     result = await pool.query("Update agent SET city=$1 WHERE agent_id=$2 ", [
-//       city,
-//       id,
-//     ]);
+    result = await pool.query("Update agent SET city=$1 WHERE agent_id=$2 ", [
+      city,
+      id,
+    ]);
 
-//     console.log(result.rowCount);
+    console.log(result.rowCount);
 
-//     // check that rows are affected to verify succesfully operation
-//     result.rowCount > 0
-//       ? res
-//           .status(200)
-//           .send(`City for agent_id: ${id} was successfully updated!`)
-//       : res
-//           .status(400)
-//           .send(
-//             "Bad request: Missing or incorrect data provided for 'id' or 'city'."
-//           );
-//   } catch (err) {
-//     console.log(err);
-//     res
-//       .status(500)
-//       .send("An unexpected error occurred. Please try again later."); //SENDS STATUS TO CONSOLE AND CLIENT
-//   }
-//   //run sql query for update into the agents
-// });
+    // check that rows are affected to verify succesfully operation
+    result.rowCount > 0
+      ? res
+          .status(200)
+          .send(`City for agent_id: ${id} was successfully updated!`)
+      : res
+          .status(400)
+          .send(
+            "Bad request: Missing or incorrect data provided for 'id' or 'city'."
+          );
+  } catch (err) {
+    console.log(err);
+    res
+      .status(500)
+      .send("An unexpected error occurred. Please try again later."); //SENDS STATUS TO CONSOLE AND CLIENT
+  }
+  //run sql query for update into the agents
+});
 
 // /* || PROVINCE/STATE UPDATE  ROUTE || */
 // router.put("/province_state", async (req, res) => {
