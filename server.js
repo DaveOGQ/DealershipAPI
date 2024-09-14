@@ -37,7 +37,7 @@ function logger(req, res, next) {
 }
 
 // Start the server with error handling
-app.listen(port, (err) => {
+app.listen(port, "0.0.0.0", (err) => {
   if (err) {
     console.error("Error starting server:", err);
   } else {

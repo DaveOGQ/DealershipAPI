@@ -35,19 +35,28 @@ router
       const id = generateUniqueRandomId();
       console.log("Generated ID:", id);
 
-      result = await pool.query(
-        "INSERT INTO agent (agent_id, fname, lname, address, city, province_state, vehicles_sold)VALUES ($1, $2, $3, $4, $5, $6, $7);",
+      const result = await pool.query(
+        "INSERT INTO agent (agent_id, fname, lname, address, city, province_state, vehicles_sold) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *;",
         [id, fname, lname, address, city, province_state, vehicles_sold]
       );
 
-      //return the new generated id to the client
-      res.status(200).json({ agent_id: id });
+      // Log the result of the query
+      console.log(result);
+
+      // Respond with the generated agent_id
+      res.status(200).json({ agent_id: result.rows[0].agent_id });
     } catch (err) {
-      console.error(err);
+      console.error("Error details:", err); // Log the full error details
       res
         .status(500)
-        .send("An unexpected error occurred. Please try again later.");
+        .json({ message: "An error occurred", error: err.message });
     }
+    //catch (err) {
+    //   console.error(err.message);
+    //   res
+    //     .status(500)
+    //     .send("An unexpected error occurred. Please try again later.");
+    // }
   });
 
 /* || ID  ROUTES, GETTING A SPECIFIC AGENT AND DELETING ONE BY SPECIFIED ID || */
